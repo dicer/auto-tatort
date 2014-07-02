@@ -14,11 +14,11 @@ Das Script laed nur Folgen aus dem RSS Feed, die auch das Datum des aktuellen Ta
 Abhaengigkeiten
 ===============
 
-import sys
-import feedparser (apt-get install python-feedparser)
-import datetime
-import urlparse
-from urllib import urlopen, urlretrieve
-import json
+import sys  
+import feedparser (apt-get install python-feedparser)  
+import datetime  
+import urlparse  
+from urllib import urlopen, urlretrieve  
+import json  
 
 Wurde nicht mit Python3 getestet, sollte aber vorher mit dem 2to3 Tool konvertiert werden!
