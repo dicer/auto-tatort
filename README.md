@@ -1,7 +1,7 @@
 auto-tatort
 ===========
 
-Kleines Script um die aktuelle Tatort Folgen automatisiert (cron) aus der ARD Mediathek zu laden.
+Kleines Script um die aktuellen Tatort Folgen automatisiert (cron) aus der ARD Mediathek zu laden.
 
 Wer ein weniger automatisiertes Script benoetigt und einfach nur eine Folge (bzw beliebige Sendung aus der Mediathek) runterladen moechte, schaut am besten bei Leo Gaggl vorbei: https://github.com/leogaggl/media/
 
