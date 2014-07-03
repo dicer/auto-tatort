@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import sys
 import feedparser
 import datetime
@@ -11,6 +12,7 @@ RSS_URL = "http://www.ardmediathek.de/tv/Tatort/Sendung?documentId=602916&bcastI
 #2=640x360
 #3=960x544
 QUALITY = 3
+
 TARGET_DIR = "/data/tatort/"
 
 
@@ -19,7 +21,6 @@ feed = feedparser.parse( RSS_URL )
 items = feed.entries
 
 today = datetime.date.today()
-#today = datetime.date(2014,06,23)
 
 for item in items:
    year = item["date_parsed"][0];
@@ -44,4 +45,4 @@ for item in items:
             mediaURL = mediaLink["_stream"]
             fileName = "".join([x if x.isalnum() or x in "- " else "" for x in title])
             urlretrieve(mediaURL, TARGET_DIR + fileName + ".mp4")
-
+            print "Downloaded '" + title + "'"
