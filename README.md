@@ -3,6 +3,11 @@ auto-tatort
 
 Kleines Script um die aktuelle Tatort Folgen automatisiert (cron) aus der ARD Mediathek zu laden.
 
+Wer ein weniger automatisiertes Script benoetigt und einfach nur eine Folge (bzw beliebige Sendung aus der Mediathek) runterladen moechte, schaut am besten bei Leo Gaggl vorbei: https://github.com/leogaggl/media/
+
+Einsatz
+=======
+
 Bitte editieren und den Pfad anpassen in dem die Dateien abgelegt werden sollen. Die Vergabe des Names erfolgt automatisch und basiert auf dem Titel des RSS Feed Eintrags.
 
 Dann Script jeden Abend um 23:50 via cron automatisiert ausfuehren lassen:
@@ -22,3 +27,8 @@ from urllib import urlopen, urlretrieve
 import json  
 
 Wurde nicht mit Python3 getestet, sollte aber vorher mit dem 2to3 Tool konvertiert werden!
+
+Credits
+=======
+Author: Felix Knecht  
+Die Idee hierzu ist aus den Scripten von Robin Gareus entstanden: http://www.rg42.org/wiki/tatort-dl
