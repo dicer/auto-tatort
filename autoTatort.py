@@ -45,8 +45,14 @@ for item in items:
       response = urlopen(docUrl)
       html = response.read()
 
-      media = json.loads(html)
+      try:
+        media = json.loads(html)
+      except ValueError, e:
+        print e
+        print "Could not get item with title '" + title + "'. Original item link is '" + link + "' and parsed docId[0] is '" + docId[0] + "', but html response from '" + docUrl + "' was '" + html + "'"
+
       mediaLinks = media["_mediaArray"][1]["_mediaStreamArray"]
+
       for mediaLink in mediaLinks:
          if QUALITY == mediaLink["_quality"]:
             mediaURL = mediaLink["_stream"]
