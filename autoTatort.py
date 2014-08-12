@@ -1,10 +1,17 @@
 #!/usr/bin/python
-import sys
+import sys, codecs, locale
 import feedparser
 import datetime
 import urlparse
 from urllib import urlopen, urlretrieve
 import json
+
+#Wrap sysout so we don't run into problems when printing unicode characters to the console.
+#This would otherwise be a problem when we are invoked on Debian using cron: 
+#Console will have encoding NONE and fail to print some titles with umlauts etc
+#might also fix printing on Windows consoles
+#see https://wiki.python.org/moin/PrintFails
+sys.stdout = codecs.getwriter(locale.getpreferredencoding())(sys.stdout);
 
 RSS_URL = "http://www.ardmediathek.de/tv/Tatort/Sendung?documentId=602916&bcastId=602916&rss=true"
 
