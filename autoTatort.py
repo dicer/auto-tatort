@@ -21,6 +21,9 @@ RSS_URL = "http://www.ardmediathek.de/tv/Tatort/Sendung?documentId=602916&bcastI
 #3=960x544 (189k audio)
 QUALITY = 3
 
+#set to False if you don't want subtitles
+SUBTITLES = True
+
 TARGET_DIR = "/data/tatort/"
 
 
@@ -48,9 +51,10 @@ for item in items:
 
       try:
         media = json.loads(html)
-      except ValueError, e:
+      except ValueError as e:
         print e
         print "Could not get item with title '" + title + "'. Original item link is '" + link + "' and parsed docId[0] is '" + docId[0] + "', but html response from '" + docUrl + "' was '" + html + "'"
+        continue
 
       if '_mediaArray' not in media or len(media["_mediaArray"]) == 0:
         print "Skipping " + title + " because it does not have any mediafiles"
@@ -63,3 +67,18 @@ for item in items:
             fileName = "".join([x if x.isalnum() or x in "- " else "" for x in title])
             urlretrieve(mediaURL, TARGET_DIR + fileName + ".mp4")
             print "Downloaded '" + title + "'"
+
+            #download subtitles
+            try:
+              if SUBTITLES and '_subtitleUrl' in media and len(media["_subtitleUrl"]) > 0:
+                offset = 0
+                if '_subtitleOffset' in media:
+                 offset = media["_subtitleOffset"]
+
+                subtitleURL = 'http://www.ardmediathek.de/' + media["_subtitleUrl"]
+                urlretrieve(subtitleURL, TARGET_DIR + fileName + "_subtitleOffset_" + str(offset) + ".xml")
+            except Exception as e:
+              #print and resume with download
+              print e
+              print subtitleURL
+
