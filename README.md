@@ -16,6 +16,12 @@ Dann Script jeden Abend um 23:50 via cron automatisiert ausfuehren lassen:
 
 Das Script laed nur Folgen aus dem RSS Feed, die auch das Datum des aktuellen Tages haben. Das hat den Vorteil, dass die ganzen Dokumentationen und Vorschauen etc nicht geladen werden. Diese werden naemlich meistens mit einem vergangenen Datum eingestellt. Die Filme werden irgendwann kurz nach der Sendung in den Feed eingebaut. Daher sollte es eigentlich immer mit 23:50 klappen.
 
+Untertitel
+==========
+
+Die meisten oder alle Tatortfolgen scheinen auch Untertitel zu enthalten. Diese werden automatisch mit runter geladen und im gleichen Verzeichnis abgelegt. Bisher sind das rohe XML Dateien, mit denen man noch nicht viel anfangen kann. Es wird spaeter mal einen Konverter geben, der diese in gebraeuchliche Formate umwandeln kann.
+Wenn keine Untertitel gewuenscht sind, kann man das entsprechend im Script anpassen.
+
 Abhaengigkeiten
 ===============
 
