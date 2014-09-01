@@ -51,6 +51,9 @@ for item in items:
         print e
         print "Could not get item with title '" + title + "'. Original item link is '" + link + "' and parsed docId[0] is '" + docId[0] + "', but html response from '" + docUrl + "' was '" + html + "'"
 
+      if '_mediaArray' not in media or len(media["_mediaArray"]) == 0:
+        print "Skipping " + title + " because it does not have any mediafiles"
+        continue
       mediaLinks = media["_mediaArray"][1]["_mediaStreamArray"]
 
       for mediaLink in mediaLinks:
