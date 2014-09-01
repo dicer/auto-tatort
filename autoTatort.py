@@ -15,9 +15,10 @@ sys.stdout = codecs.getwriter(locale.getpreferredencoding())(sys.stdout);
 
 RSS_URL = "http://www.ardmediathek.de/tv/Tatort/Sendung?documentId=602916&bcastId=602916&rss=true"
 
-#1=512x288
-#2=640x360
-#3=960x544
+#0=256x144 (61k audio)
+#1=512x288 (125k audio)
+#2=640x360 (189k audio)
+#3=960x544 (189k audio)
 QUALITY = 3
 
 TARGET_DIR = "/data/tatort/"
