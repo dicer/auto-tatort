@@ -49,6 +49,10 @@ for item in items:
       response = urlopen(docUrl)
       html = response.read()
 
+      if 'http://www.ardmediathek.de/-/stoerung' == response.geturl():
+        print "Could not get item with title '" + title + "'. Got redirected to '" + response.geturl() + "'. This is probably because the item is still in the RSS feed, but not available anymore."
+        continue
+
       try:
         media = json.loads(html)
       except ValueError as e:
