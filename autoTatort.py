@@ -15,10 +15,11 @@ sys.stdout = codecs.getwriter(locale.getpreferredencoding())(sys.stdout);
 
 RSS_URL = "http://www.ardmediathek.de/tv/Tatort/Sendung?documentId=602916&bcastId=602916&rss=true"
 
-#0=256x144 (61k audio)
-#1=512x288 (125k audio)
-#2=640x360 (189k audio)
-#3=960x544 (189k audio)
+#-1=highest quality available
+# 0=256x144 (61k audio)
+# 1=512x288 (125k audio)
+# 2=640x360 (189k audio)
+# 3=960x544 (189k audio)
 QUALITY = 3
 
 #set to False if you don't want subtitles
@@ -65,8 +66,17 @@ for item in items:
         continue
       mediaLinks = media["_mediaArray"][1]["_mediaStreamArray"]
 
+      downloadQuality = QUALITY
+
+      #get best quality?
+      if downloadQuality == -1:
+        downloadQuality = 0
+        for mediaLink in mediaLinks:
+          if mediaLink["_quality"] > downloadQuality and '_stream' in mediaLink:
+            downloadQuality = mediaLink["_quality"]
+
       for mediaLink in mediaLinks:
-         if QUALITY == mediaLink["_quality"]:
+         if downloadQuality == mediaLink["_quality"]:
             mediaURL = mediaLink["_stream"]
             fileName = "".join([x if x.isalnum() or x in "- " else "" for x in title])
             urlretrieve(mediaURL, TARGET_DIR + fileName + ".mp4")
