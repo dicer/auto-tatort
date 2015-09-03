@@ -15,12 +15,16 @@ sys.stdout = codecs.getwriter(locale.getpreferredencoding())(sys.stdout);
 
 RSS_URL = "http://www.ardmediathek.de/tv/Tatort/Sendung?documentId=602916&bcastId=602916&rss=true"
 
-#-1=highest quality available
-# 0=256x144 (61k audio)
-# 1=512x288 (125k audio)
-# 2=640x360 (189k audio)
-# 3=960x544 (189k audio)
-QUALITY = 3
+# -1 = download highest quality available
+# 0.0 320x180 (53k audio)i
+# 1.0 512x288 (93k audio)
+# 1.1 480x270 (61k audio)
+# 2.0 640x360 (189k audio)
+# 2.1 960x540 (189k audio)
+
+#you can currently only select the highest quality within one tier. So 1 will dowload 1.1 and 2 will download 2.1. 0 will download 0.0
+QUALITY = -1
+
 
 #set to False if you don't want subtitles
 SUBTITLES = True
@@ -33,6 +37,8 @@ feed = feedparser.parse( RSS_URL )
 items = feed.entries
 
 today = datetime.date.today()
+#today = datetime.date(2015,8,30)
+
 
 for item in items:
    year = item["date_parsed"][0];
@@ -75,11 +81,25 @@ for item in items:
           if mediaLink["_quality"] > downloadQuality and '_stream' in mediaLink:
             downloadQuality = mediaLink["_quality"]
 
+
+      downloadedSomething = 0
+
       for mediaLink in mediaLinks:
          if downloadQuality == mediaLink["_quality"]:
-            mediaURL = mediaLink["_stream"]
+            stream = mediaLink["_stream"]
+            mediaURL = ""
+            #check if the selected quality has two stream urls
+            if type(stream) is list or type(stream) is tuple:
+              if len(stream) > 1:
+                mediaURL = stream[1]
+              else:
+                mediaURL = stream[0]
+            else:
+              mediaURL = stream
+
             fileName = "".join([x if x.isalnum() or x in "- " else "" for x in title])
             urlretrieve(mediaURL, TARGET_DIR + fileName + ".mp4")
+            downloadedSomething = 1
             print "Downloaded '" + title + "'"
 
             #download subtitles
@@ -95,4 +115,8 @@ for item in items:
               #print and resume with download
               print e
               print subtitleURL
+
+      #check whether we download something
+      if downloadedSomething == 0:
+        print "Could not download '" + title + "' because of an error or nothing matching your quality selection"
 
