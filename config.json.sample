@@ -1,0 +1,14 @@
+{
+    "debug": 0,
+    "feeds": [
+        {
+            "enabled": 1,
+            "id": "Tatort",
+            "quality": -1,
+            "subtitles": 1,
+            "targetFolder": "/data/tatort/",
+            "url": "http://www.ardmediathek.de/tv/Tatort/Sendung?documentId=602916&bcastId=602916&rss=true"
+        }
+    ],
+    "version": 1
+}

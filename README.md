@@ -8,7 +8,8 @@ Wer ein weniger automatisiertes Script benoetigt und einfach nur eine Folge (bzw
 Einsatz
 =======
 
-Bitte editieren und den Pfad anpassen in dem die Dateien abgelegt werden sollen. Die Vergabe des Names erfolgt automatisch und basiert auf dem Titel des RSS Feed Eintrags.
+Die Datei config.json.sample nach config.json kopieren. Darin wenigstens mit targetFolder den Pfad angeben in dem die Dateien abgelegt werden sollen.
+Die Vergabe des Dateinames erfolgt automatisch und basiert auf dem Titel des RSS Feed Eintrags.
 
 Dann Script jeden Abend um 23:50 via cron automatisiert ausfuehren lassen:
 
@@ -20,17 +21,34 @@ Untertitel
 ==========
 
 Die meisten oder alle Tatortfolgen scheinen auch Untertitel zu enthalten. Diese werden automatisch mit runter geladen und im gleichen Verzeichnis abgelegt. Bisher sind das rohe XML Dateien, mit denen man noch nicht viel anfangen kann. Es wird spaeter mal einen Konverter geben, der diese in gebraeuchliche Formate umwandeln kann.
-Wenn keine Untertitel gewuenscht sind, kann man das entsprechend im Script anpassen.
+Wenn keine Untertitel gewuenscht sind, kann man das entsprechend in der Config anpassen.
+
+Config
+======
+
+Die Konfiguration findet in der Datei config.json statt. Ein Beispiel findet sich in config.json.sample. Dabei ist das JSON-Format einzuhalten (hauptsaechlich weil sich dadurch keine weitere Bibliotheksabhaengigkeit ergibt).
+Folgende Optionen koennen veraendert werden:
+
+- debug: Sollen debug Informationen ausgegeben werden? Kann auf 1 gesetzt werden, allerdings bekommt man dann natuerlich jeden Tag eine Mail, sofern das Script via cron eingebunden ist
+- feeds: Hier koennen mehrere RSS-Feeds aus der Mediathek abgefragt werden. Per Default ist der Tatortfeed voreingestellt.
+  - enabled: Hier koennen einzelne Feeds deaktiviert werden, ohne sie aus der Config entfernen zu muessen
+  - id: Eindeutige Id fuer den Feed. Wird aktuell nur zur besseren Wiedererkennung verwendet.
+  - quality:
+  - subtitles: Mit option 1 werden die teilweise angebotenen Untertitel-XML-Dateien runterladen.
+  - targetFolder: Ordner in dem die runtergeladenen Dateien abgelegt werden sollen
+  - url: http URL zu einem Mediathek RSS Feed
+- version: Gibt die Schemaversion der Config-Datei an
 
 Abhaengigkeiten
 ===============
 
-import sys  
+import sys, codecs, locale
 import feedparser (apt-get install python-feedparser)  
 import datetime  
 import urlparse  
 from urllib import urlopen, urlretrieve  
-import json  
+import json
+import os.path
 
 Wurde nicht mit Python3 getestet, sollte aber vorher mit dem 2to3 Tool konvertiert werden!
 
