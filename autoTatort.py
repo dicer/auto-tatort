@@ -37,6 +37,15 @@ def excludeFeedBasedOnTitle(feedConfig, title):
   return False
 
 
+def filterTitle(feedConfig, title):
+  if "titleFilters" not in feedConfig or len(feedConfig["titleFilters"])==0:
+    debug("No titleFilters section found")
+    return title
+  for filter in feedConfig["titleFilters"]:
+    debug("Using replace filter '" + filter["replace"] + "'")
+    title = title.replace(filter["replace"], ""); 
+  return title
+
 
 configFile = os.path.dirname(os.path.realpath(__file__)) + os.sep + "config.json"
 if (os.path.isfile(configFile)) != True:
@@ -94,6 +103,8 @@ for feed in myConfig["feeds"]:
     if excludeFeedBasedOnTitle(feed, title):
       continue
 
+    title = filterTitle(feed, title)
+    debug(u"Filtered title to '" + title + "'")
 
     link = item["link"]
     parsed = urlparse.urlparse(link)

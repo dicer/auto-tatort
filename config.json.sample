@@ -33,8 +33,16 @@
                 {
                     "regexp": ".*Tatort - Extra:.*"
                 }
+            ],
+            "titleFilters": [
+                {
+                    "replace": " (Video tgl. ab 22 Uhr)"
+                },
+                {
+                    "replace": " (Video tgl. ab 20 Uhr)"
+                }
             ]
         }
     ],
-    "version": 1
+    "version": 3
 }

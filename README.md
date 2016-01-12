@@ -38,6 +38,7 @@ Folgende Optionen koennen veraendert werden:
   - targetFolder: Ordner in dem die runtergeladenen Dateien abgelegt werden sollen
   - url: http URL zu einem Mediathek RSS Feed
   - exclude: Eine Auflistung von RegExp (https://docs.python.org/2/howto/regex.html) mit denen Feeditems vom Download ausgeschlossen werden koennen. Matched auf den Titel. \ muss als \\ escaped werden
+  - titleFilters: Eine Auflistung von replace-Strings: Diese Strings werden aus dem Titel (und damit spaeter dem Dateinamen) entfernt.
 - version: Gibt die Schemaversion der Config-Datei an
 
 Abhaengigkeiten
