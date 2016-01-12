@@ -37,6 +37,7 @@ Folgende Optionen koennen veraendert werden:
   - subtitles: Mit option 1 werden die teilweise angebotenen Untertitel-XML-Dateien runterladen.
   - targetFolder: Ordner in dem die runtergeladenen Dateien abgelegt werden sollen
   - url: http URL zu einem Mediathek RSS Feed
+  - exclude: Eine Auflistung von RegExp (https://docs.python.org/2/howto/regex.html) mit denen Feeditems vom Download ausgeschlossen werden koennen. Matched auf den Titel. \ muss als \\ escaped werden
 - version: Gibt die Schemaversion der Config-Datei an
 
 Abhaengigkeiten
@@ -49,6 +50,7 @@ import urlparse
 from urllib import urlopen, urlretrieve  
 import json
 import os.path
+import re
 
 Wurde nicht mit Python3 getestet, sollte aber vorher mit dem 2to3 Tool konvertiert werden!
 

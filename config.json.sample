@@ -7,7 +7,33 @@
             "quality": -1,
             "subtitles": 1,
             "targetFolder": "/data/tatort/",
-            "url": "http://www.ardmediathek.de/tv/Tatort/Sendung?documentId=602916&bcastId=602916&rss=true"
+            "url": "http://www.ardmediathek.de/tv/Tatort/Sendung?documentId=602916&bcastId=602916&rss=true",
+            "exclude": [
+                {
+                    "regexp": ".*H.rfassung.*"
+                },
+                {
+                    "regexp": ".*Livestream.*"
+                },
+                {
+                    "regexp": ".*Drehbericht zu.*"
+                },
+                {
+                    "regexp": ".*TV-Trailer.*"
+                },
+                {
+                    "regexp": ".*XL-Vorschau.*"
+                },
+                {
+                    "regexp": ".*Die Klassiker:.*"
+                },
+                {
+                    "regexp": ".*Making-Of.*"
+                },
+                {
+                    "regexp": ".*Tatort - Extra:.*"
+                }
+            ]
         }
     ],
     "version": 1

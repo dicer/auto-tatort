@@ -6,6 +6,7 @@ import urlparse
 from urllib import urlopen, urlretrieve
 import json
 import os.path
+import re
 
 #Wrap sysout so we don't run into problems when printing unicode characters to the console.
 #This would otherwise be a problem when we are invoked on Debian using cron: 
@@ -18,6 +19,22 @@ sys.stdout = codecs.getwriter(locale.getpreferredencoding())(sys.stdout)
 def debug(text):
   if myConfig["debug"] == 1:
     print text
+
+
+def excludeFeedBasedOnTitle(feedConfig, title):
+  if "exclude" not in feedConfig or len(feedConfig["exclude"])==0:
+    debug("No exclude section found")
+    return False
+
+  for exclude in feedConfig["exclude"]:
+    p = re.compile(exclude["regexp"])
+    if p.match(title) != None:
+      debug("Title '" + title + "' was excluded by regexp '" + exclude["regexp"] + "'")
+      return True
+    else:
+      debug("Title '" + title + "' was NOT excluded by regexp '" + exclude["regexp"] + "'")
+
+  return False
 
 
 
@@ -56,12 +73,11 @@ for feed in myConfig["feeds"]:
   targetDir = feed["targetFolder"]
   debug(targetDir)
 
-  feed = feedparser.parse( rssUrl )
-
-  items = feed.entries
+  feedItemList = feedparser.parse( rssUrl )
+  items = feedItemList.entries
 
   today = datetime.date.today()
-  #today = datetime.date(2015,8,30)
+  #today = datetime.date(2016,1,10)
 
 
   for item in items:
@@ -74,6 +90,11 @@ for feed in myConfig["feeds"]:
       continue
 
     title = item["title"]
+
+    if excludeFeedBasedOnTitle(feed, title):
+      continue
+
+
     link = item["link"]
     parsed = urlparse.urlparse(link)
     docId = urlparse.parse_qs(parsed.query)['documentId']
