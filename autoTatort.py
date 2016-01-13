@@ -177,7 +177,7 @@ for feed in myConfig["feeds"]:
       fileName = "".join([x if x.isalnum() or x in "- " else "" for x in title])
       
       try:
-        urlretrieve(mediaURL, TARGET_DIR + fileName + ".mp4")
+        urlretrieve(mediaURL, targetDir + fileName + ".mp4")
       except IOError as e:
         print "Could not connect to link '" + mediaURL + "'"
         print e
@@ -199,7 +199,7 @@ for feed in myConfig["feeds"]:
 
           subtitleURL = 'http://www.ardmediathek.de/' + media["_subtitleUrl"]
           
-          urlretrieve(subtitleURL, TARGET_DIR + fileName + "_subtitleOffset_" + str(offset) + ".xml")
+          urlretrieve(subtitleURL, targetDir + fileName + "_subtitleOffset_" + str(offset) + ".xml")
           if response.getcode() >= 400:
              print subtitleURL
              print "Could not get the subtitles for item with title '" + title + "'. Status code is " + response.getcode()
