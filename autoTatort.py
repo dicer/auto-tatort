@@ -83,6 +83,16 @@ for feed in myConfig["feeds"]:
   debug(targetDir)
 
   feedItemList = feedparser.parse( rssUrl )
+
+  if feedItemList.bozo == 1:
+    print "Could not connect to link '" + rssUrl + "'."
+    print feedItemList.bozo_exception
+    continue
+
+  if feedItemList.status >= 400:
+    print "Could not connect to link '" + rssUrl + "'. Status code returned: " + feedItemList.status
+    continue
+
   items = feedItemList.entries
 
   today = datetime.date.today()
@@ -111,12 +121,19 @@ for feed in myConfig["feeds"]:
     docId = urlparse.parse_qs(parsed.query)['documentId']
     docUrl = 'http://www.ardmediathek.de/play/media/' + docId[0] + '?devicetype=pc&features=flash'
 
-    response = urlopen(docUrl)
-    html = response.read()
-
-    if 'http://www.ardmediathek.de/-/stoerung' == response.geturl():
-      print "Could not get item with title '" + title + "'. Got redirected to '" + response.geturl() + "'. This is probably because the item is still in the RSS feed, but not available anymore."
+    try:
+      response = urlopen(docUrl)
+    except IOError as e:
+      print "Could not connect to link '" + docUrl + "'"
+      print e
       continue
+
+    if 'http://www.ardmediathek.de/-/stoerung' == response.geturl() or response.getcode() >= 400:
+      print docUrl
+      print "Could not get item with title '" + title + "'. Got redirected to '" + response.geturl() + "'. Status code is " + response.getcode() + ". This is probably because the item is still in the RSS feed, but not available anymore."
+      continue
+
+    html = response.read()
 
     try:
       media = json.loads(html)
@@ -158,7 +175,18 @@ for feed in myConfig["feeds"]:
         mediaURL = stream
 
       fileName = "".join([x if x.isalnum() or x in "- " else "" for x in title])
-      urlretrieve(mediaURL, TARGET_DIR + fileName + ".mp4")
+      
+      try:
+        urlretrieve(mediaURL, TARGET_DIR + fileName + ".mp4")
+      except IOError as e:
+        print "Could not connect to link '" + mediaURL + "'"
+        print e
+        continue
+      if response.getcode() >= 400:
+        print mediaURL
+        print "Could not get item with title '" + title + "'. Status code is " + response.getcode()
+        continue
+
       downloadedSomething = 1
       print "Downloaded '" + title + "'"
 
@@ -170,7 +198,13 @@ for feed in myConfig["feeds"]:
             offset = media["_subtitleOffset"]
 
           subtitleURL = 'http://www.ardmediathek.de/' + media["_subtitleUrl"]
+          
           urlretrieve(subtitleURL, TARGET_DIR + fileName + "_subtitleOffset_" + str(offset) + ".xml")
+          if response.getcode() >= 400:
+             print subtitleURL
+             print "Could not get the subtitles for item with title '" + title + "'. Status code is " + response.getcode()
+             continue
+
       except Exception as e:
         #print and resume with download
         print e
