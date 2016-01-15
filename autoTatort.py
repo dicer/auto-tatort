@@ -172,7 +172,7 @@ for feed in myConfig["feeds"]:
       for mediaLink in mediaLinks:
         if mediaLink["_quality"] > downloadQuality and '_stream' in mediaLink:
           downloadQuality = mediaLink["_quality"]
-
+    debug("Downloading quality " + str(downloadQuality))
 
     downloadedSomething = 0
 
@@ -185,11 +185,14 @@ for feed in myConfig["feeds"]:
       #check if the selected quality has two stream urls
       if type(stream) is list or type(stream) is tuple:
         if len(stream) > 1:
+          debug("We have " + str(len(stream)) + " streams. Will download 2nd")
           mediaURL = stream[1]
         else:
+          debug("We have only one stream in the list. Will download it")
           mediaURL = stream[0]
       else:
         mediaURL = stream
+        debug("We have only one stream. Will download it")
 
       fileName = "".join([x if x.isalnum() or x in "- " else "" for x in title])
       

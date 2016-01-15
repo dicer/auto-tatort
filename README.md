@@ -35,9 +35,9 @@ Folgende Optionen koennen veraendert werden:
   - id: Eindeutige Id fuer den Feed. Wird aktuell nur zur besseren Wiedererkennung verwendet.
   - quality:
     - -1 = Automatisch die hoechste Qualitaet laden (Default)
-    -  0 = 320x180 (53k audio)
-    -  1 = 480x270 (61k audio) (es gibt auch noch 1.0 = 512x288 (93k audio), aber das wird im Moment nicht unterstuetzt)
-    -  2 = 960x540 (189k audio) (es gibt auch noch 2.0 = 640x360 (189k audio), aber das wird im Moment nicht unterstuetzt)
+    -  0 = 320x180 (53k audio, 12.5fps)
+    -  1 = 480x270 (61k audio, 25fps) (es gibt auch noch 1.0 = 512x288 (93k audio, 25fps), aber das wird im Moment nicht unterstuetzt)
+    -  2 = 960x540 (189k audio, 25fps) (es gibt auch noch 2.0 = 640x360 (189k audio, 25fps), aber das wird im Moment nicht unterstuetzt)
   - subtitles: Mit option 1 werden die teilweise angebotenen Untertitel-XML-Dateien runterladen.
   - targetFolder: Ordner in dem die runtergeladenen Dateien abgelegt werden sollen
   - url: http URL zu einem Mediathek RSS Feed
