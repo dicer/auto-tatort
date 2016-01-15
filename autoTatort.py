@@ -221,7 +221,7 @@ for feed in myConfig["feeds"]:
           if '_subtitleOffset' in media:
             offset = media["_subtitleOffset"]
 
-          subtitleURL = 'http://www.ardmediathek.de/' + media["_subtitleUrl"]
+          subtitleURL = media["_subtitleUrl"]
           
           urlretrieve(subtitleURL, targetDir + fileName + "_subtitleOffset_" + str(offset) + ".xml")
           if response.getcode() >= 400:
