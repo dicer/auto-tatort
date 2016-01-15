@@ -91,14 +91,6 @@ for feed in myConfig["feeds"]:
   rssUrl = feed["url"]
   debug(rssUrl)
 
-  # -1 = download highest quality available
-  # 0.0 320x180 (53k audio)i
-  # 1.0 512x288 (93k audio)
-  # 1.1 480x270 (61k audio)
-  # 2.0 640x360 (189k audio)
-  # 2.1 960x540 (189k audio)
-
-  #you can currently only select the highest quality within one tier. So 1 will download 1.1 and 2 will download 2.1. 0 will download 0.0
   quality = feed["quality"]
   debug(quality)
 

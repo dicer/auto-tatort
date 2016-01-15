@@ -34,10 +34,14 @@ Folgende Optionen koennen veraendert werden:
   - enabled: Hier koennen einzelne Feeds deaktiviert werden, ohne sie aus der Config entfernen zu muessen
   - id: Eindeutige Id fuer den Feed. Wird aktuell nur zur besseren Wiedererkennung verwendet.
   - quality:
+    - -1 = Automatisch die hoechste Qualitaet laden (Default)
+    -  0 = 320x180 (53k audio)
+    -  1 = 480x270 (61k audio) (es gibt auch noch 1.0 = 512x288 (93k audio), aber das wird im Moment nicht unterstuetzt)
+    -  2 = 960x540 (189k audio) (es gibt auch noch 2.0 = 640x360 (189k audio), aber das wird im Moment nicht unterstuetzt)
   - subtitles: Mit option 1 werden die teilweise angebotenen Untertitel-XML-Dateien runterladen.
   - targetFolder: Ordner in dem die runtergeladenen Dateien abgelegt werden sollen
   - url: http URL zu einem Mediathek RSS Feed
-  - exclude: Eine Auflistung von RegExp (https://docs.python.org/2/howto/regex.html) mit denen Feeditems vom Download ausgeschlossen werden koennen. Matched auf den Titel. \ muss als \\ escaped werden
+  - exclude: Eine Auflistung von RegExp (https://docs.python.org/2/howto/regex.html) mit denen Feeditems vom Download ausgeschlossen werden koennen. Matched auf den Titel. \ muss escaped werden
   - titleFilters: Eine Auflistung von replace-Strings: Diese Strings werden aus dem Titel (und damit spaeter dem Dateinamen) entfernt.
   - downloadedFeedItemsDatabase: Dateiname fuer die Ablage der schon runter geladenen Folgen. In dieser Datei werden die Mediathek documentIds gespeichert, die erfolgreich runter geladen wurden.
 - version: Gibt die Schemaversion der Config-Datei an
@@ -45,14 +49,14 @@ Folgende Optionen koennen veraendert werden:
 Abhaengigkeiten
 ===============
 
-import sys, codecs, locale
+import sys, codecs, locale  
 import feedparser (apt-get install python-feedparser)  
 import datetime  
 import urlparse  
 from urllib import urlopen, urlretrieve  
-import json
-import os.path
-import re
+import json  
+import os.path  
+import re  
 
 Wurde nicht mit Python3 getestet, sollte aber vorher mit dem 2to3 Tool konvertiert werden!
 
