@@ -28,7 +28,7 @@
                     "regexp": ".*Die Klassiker:.*"
                 },
                 {
-                    "regexp": ".*Making-Of.*"
+                    "regexp": ".*Making.[oO]f.*"
                 },
                 {
                     "regexp": ".*Tatort - Extra:.*"
@@ -44,5 +44,6 @@
             ]
         }
     ],
-    "version": 3
+    "downloadedFeedItemsDatabase": "downloadedItems.json",
+    "version": 4
 }

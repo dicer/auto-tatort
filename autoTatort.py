@@ -47,17 +47,44 @@ def filterTitle(feedConfig, title):
   return title
 
 
+def saveDownloadedFeedsDB():
+  open(downloadedFeedItemsDatabaseFile, "w").write(json.dumps(myDownloadedFeedItemsDatabase))
+
+
+def markDocIdDownloaded(feedId, docId):
+  if feedId not in myDownloadedFeedItemsDatabase:
+    debug("Feed not yet in db. Addind feed '" + feedId + "' and docId '" + docId + "'")
+    myDownloadedFeedItemsDatabase[feedId] = [docId]
+    saveDownloadedFeedsDB()
+  else:
+    debug("Adding docId '" + docId + "' to seen-db")
+    myDownloadedFeedItemsDatabase[feedId].append(docId)
+    saveDownloadedFeedsDB()
+
+
+
 configFile = os.path.dirname(os.path.realpath(__file__)) + os.sep + "config.json"
 if (os.path.isfile(configFile)) != True:
-    print "Could not find the config file 'config.json' at " + configFile
-    sys.exit(1)
+  print "Could not find the config file 'config.json' at " + configFile
+  sys.exit(1)
 
 myConfig = json.loads(open(configFile).read())
 
+downloadedFeedItemsDatabaseFile = os.path.dirname(os.path.realpath(__file__)) + os.sep + myConfig["downloadedFeedItemsDatabase"]
+dbJson = ""
+if (os.path.isfile(downloadedFeedItemsDatabaseFile)) != True:
+  debug("Creating downloadedFeedItemsDatabase")
+  dbJson = "{}"
+else:
+  dbJson = open(downloadedFeedItemsDatabaseFile).read()
+
+myDownloadedFeedItemsDatabase = json.loads(dbJson)
 
 
 for feed in myConfig["feeds"]:
-  
+
+  feedId = feed["id"]
+
   if feed["enabled"] != 1:
     continue
 
@@ -71,7 +98,7 @@ for feed in myConfig["feeds"]:
   # 2.0 640x360 (189k audio)
   # 2.1 960x540 (189k audio)
 
-  #you can currently only select the highest quality within one tier. So 1 will dowload 1.1 and 2 will download 2.1. 0 will download 0.0
+  #you can currently only select the highest quality within one tier. So 1 will download 1.1 and 2 will download 2.1. 0 will download 0.0
   quality = feed["quality"]
   debug(quality)
 
@@ -95,18 +122,21 @@ for feed in myConfig["feeds"]:
 
   items = feedItemList.entries
 
-  today = datetime.date.today()
-  #today = datetime.date(2016,1,10)
-
-
   for item in items:
+
+    link = item["link"]
+    parsed = urlparse.urlparse(link)
+    docId = urlparse.parse_qs(parsed.query)['documentId'][0]
+    docUrl = 'http://www.ardmediathek.de/play/media/' + docId + '?devicetype=pc&features=flash'
+
+    #already downloaded?
+    if feedId in myDownloadedFeedItemsDatabase and docId in myDownloadedFeedItemsDatabase[feedId]:
+      continue
+
     year = item["date_parsed"][0];
     month = item["date_parsed"][1];
     day = item["date_parsed"][2];
     feedDate = datetime.date(item["date_parsed"][0], item["date_parsed"][1], item["date_parsed"][2])
-
-    if feedDate != today:
-      continue
 
     title = item["title"]
 
@@ -115,11 +145,6 @@ for feed in myConfig["feeds"]:
 
     title = filterTitle(feed, title)
     debug(u"Filtered title to '" + title + "'")
-
-    link = item["link"]
-    parsed = urlparse.urlparse(link)
-    docId = urlparse.parse_qs(parsed.query)['documentId']
-    docUrl = 'http://www.ardmediathek.de/play/media/' + docId[0] + '?devicetype=pc&features=flash'
 
     try:
       response = urlopen(docUrl)
@@ -188,6 +213,9 @@ for feed in myConfig["feeds"]:
         continue
 
       downloadedSomething = 1
+
+      markDocIdDownloaded(feedId, docId)
+
       print "Downloaded '" + title + "'"
 
       #download subtitles
@@ -216,7 +244,3 @@ for feed in myConfig["feeds"]:
 
 
 
-
-def debug(text):
-  if config["debug"] == 1:
-    print text

@@ -11,11 +11,11 @@ Einsatz
 Die Datei config.json.sample nach config.json kopieren. Darin wenigstens mit targetFolder den Pfad angeben in dem die Dateien abgelegt werden sollen.
 Die Vergabe des Dateinames erfolgt automatisch und basiert auf dem Titel des RSS Feed Eintrags.
 
-Dann Script jeden Abend um 23:50 via cron automatisiert ausfuehren lassen:
+Dann Script via cron automatisiert ausfuehren lassen:
 
-50 23 * * * python ~/bin/auto-tatort/autoTatort.py
+30 * * * * python ~/bin/auto-tatort/autoTatort.py
 
-Das Script laed nur Folgen aus dem RSS Feed, die auch das Datum des aktuellen Tages haben. Das hat den Vorteil, dass die ganzen Dokumentationen und Vorschauen etc nicht geladen werden. Diese werden naemlich meistens mit einem vergangenen Datum eingestellt. Die Filme werden irgendwann kurz nach der Sendung in den Feed eingebaut. Daher sollte es eigentlich immer mit 23:50 klappen.
+Das Script laed alle Folgen, die es bisher noch nicht runtergeladen hat (siehe Config: downloadedFeedItemsDatabase) und fuer die es keine exclude-Filter gibt (siehe Config: exclude). Es kann daher beliebig haeufig ausgefuehrt werden, jedoch sollte es nicht haeufiger als alle 30 Minuten gestartet werden um nicht unnoetig Last auf der Mediathek zu erzeugen.
 
 Untertitel
 ==========
@@ -39,6 +39,7 @@ Folgende Optionen koennen veraendert werden:
   - url: http URL zu einem Mediathek RSS Feed
   - exclude: Eine Auflistung von RegExp (https://docs.python.org/2/howto/regex.html) mit denen Feeditems vom Download ausgeschlossen werden koennen. Matched auf den Titel. \ muss als \\ escaped werden
   - titleFilters: Eine Auflistung von replace-Strings: Diese Strings werden aus dem Titel (und damit spaeter dem Dateinamen) entfernt.
+  - downloadedFeedItemsDatabase: Dateiname fuer die Ablage der schon runter geladenen Folgen. In dieser Datei werden die Mediathek documentIds gespeichert, die erfolgreich runter geladen wurden.
 - version: Gibt die Schemaversion der Config-Datei an
 
 Abhaengigkeiten
