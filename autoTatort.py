@@ -194,7 +194,11 @@ for feed in myConfig["feeds"]:
       fileName = "".join([x if x.isalnum() or x in "- " else "" for x in title])
       
       try:
-        urlretrieve(mediaURL, targetDir + fileName + ".mp4")
+        fullFileName = targetDir + fileName + ".mp4"
+        if (os.path.isfile(fullFileName)) == True:
+          print u"Skipping file '" + fullFileName + "' cause it already exists"
+          continue
+        urlretrieve(mediaURL, fullFileName)
       except IOError as e:
         print "Could not connect to link '" + mediaURL + "'"
         print e

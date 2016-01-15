@@ -8,6 +8,7 @@
 - Fehlermeldungen bei Verbindungsfehlern
 - Der Folgentitel kann nun gefiltert werden. Dadurch wird der Dateiname etwas schoener
 - Auf Basis vom Titel koennen Folgen beim Download uebersprungen werden (Keine Hoerfassung etc)
+- Im Zielverzeichnis schon vorhandene Dateien werden nicht nochmal runter geladen
 
 Hinweis: Nach dem Update von Version 1, muss einmalig die config.json.sample nach config.json kopiert und angepasst werden.
 
