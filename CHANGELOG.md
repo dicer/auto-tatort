@@ -3,7 +3,7 @@
 ======
 
 - Konfiguration aus Script in eine Config-Datei im Json-Format ausgelagert
-- Unterstuetzt nun nicht nur den Tatort RSS-Feed, sondern beliebige ARD Mediathek RSS Feeds und das gleichzeitig in einer Config
+- Unterstuetzt nun nicht nur den Tatort RSS-Feed, sondern beliebige ARD Mediathek RSS Feeds und das gleichzeitig in einer Config. Allerdings ohne speziellen Support. Ziel ist nach wie vor hauptsaechlich der Tatortfeed.
 - Erfolgreich runtergeladene Folgen werden in einer Json-Datei gemerkt und nicht nochmal runtergeladen. Dadurch beliebige Startzeiten und Pausen bei der Ausfuehrung
 - Fehlermeldungen bei Verbindungsfehlern
 - Der Folgentitel kann nun gefiltert werden. Dadurch wird der Dateiname etwas schoener

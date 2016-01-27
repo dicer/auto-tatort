@@ -159,8 +159,8 @@ for feed in myConfig["feeds"]:
       print "Could not get item with title '" + title + "'. Original item link is '" + link + "' and parsed docId[0] is '" + docId[0] + "', but html response from '" + docUrl + "' was '" + html + "'"
       continue
 
-    if '_mediaArray' not in media or len(media["_mediaArray"]) == 0:
-      print "Skipping " + title + " because it does not have any mediafiles"
+    if '_mediaArray' not in media or len(media["_mediaArray"]) < 2:
+      print "Skipping " + title + " because it seems it does not have any mediafiles or none that we support"
       continue
     mediaLinks = media["_mediaArray"][1]["_mediaStreamArray"]
 
