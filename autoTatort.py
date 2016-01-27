@@ -101,6 +101,9 @@ for feed in myConfig["feeds"]:
   targetDir = feed["targetFolder"]
   debug(targetDir)
 
+  titlePrependItemDate = feed["titlePrependItemDate"]
+  debug("Prepending item date: " + str(titlePrependItemDate))
+
   feedItemList = feedparser.parse( rssUrl )
 
   if feedItemList.bozo == 1:
@@ -128,7 +131,7 @@ for feed in myConfig["feeds"]:
     year = item["date_parsed"][0];
     month = item["date_parsed"][1];
     day = item["date_parsed"][2];
-    feedDate = datetime.date(item["date_parsed"][0], item["date_parsed"][1], item["date_parsed"][2])
+    itemDate = datetime.date(item["date_parsed"][0], item["date_parsed"][1], item["date_parsed"][2])
 
     title = item["title"]
 
@@ -195,7 +198,10 @@ for feed in myConfig["feeds"]:
         debug("We have only one stream. Will download it")
 
       fileName = "".join([x if x.isalnum() or x in "- " else "" for x in title])
-      
+
+      if titlePrependItemDate == 1:
+        fileName = str(itemDate) + " - " + fileName
+
       try:
         fullFileName = targetDir + fileName + ".mp4"
         if (os.path.isfile(fullFileName)) == True:

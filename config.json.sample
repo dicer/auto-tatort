@@ -41,9 +41,10 @@
                 {
                     "replace": " (Video tgl. ab 20 Uhr)"
                 }
-            ]
+            ],
+            "titlePrependItemDate": 0
         }
     ],
     "downloadedFeedItemsDatabase": "downloadedItems.json",
-    "version": 4
+    "version": 5
 }

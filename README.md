@@ -43,6 +43,7 @@ Folgende Optionen koennen veraendert werden:
   - url: http URL zu einem Mediathek RSS Feed
   - exclude: Eine Auflistung von RegExp (https://docs.python.org/2/howto/regex.html) mit denen Feeditems vom Download ausgeschlossen werden koennen. Matched auf den Titel. \ muss escaped werden
   - titleFilters: Eine Auflistung von replace-Strings: Diese Strings werden aus dem Titel (und damit spaeter dem Dateinamen) entfernt.
+  - titlePrependItemDate: Nimmt das Datum der Folge und platziert es vor dem Titel im Dateinamen. Aus "Tatort xy.mp4" wird dann "2016-01-13 - Tatort xy.mp4"
   - downloadedFeedItemsDatabase: Dateiname fuer die Ablage der schon runter geladenen Folgen. In dieser Datei werden die Mediathek documentIds gespeichert, die erfolgreich runter geladen wurden.
 - version: Gibt die Schemaversion der Config-Datei an
 
