@@ -15,6 +15,8 @@ import re
 #see https://wiki.python.org/moin/PrintFails
 sys.stdout = codecs.getwriter(locale.getpreferredencoding())(sys.stdout)
 
+DB_VERSION_REQUIRED = 5
+
 
 def debug(text):
   if myConfig["debug"] == 1:
@@ -69,6 +71,11 @@ if (os.path.isfile(configFile)) != True:
   sys.exit(1)
 
 myConfig = json.loads(open(configFile).read())
+
+myConfigVersion = myConfig["version"]
+if myConfigVersion != DB_VERSION_REQUIRED:
+  print "Your config.json version is not up to date. JSON: " + str(myConfigVersion) + "; Required: " + str(DB_VERSION_REQUIRED) + ". Please compare to config.json.sample, update your configuration and increase the version number in it"
+  sys.exit(1)
 
 downloadedFeedItemsDatabaseFile = os.path.dirname(os.path.realpath(__file__)) + os.sep + myConfig["downloadedFeedItemsDatabase"]
 dbJson = ""

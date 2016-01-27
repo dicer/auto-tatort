@@ -45,7 +45,7 @@ Folgende Optionen koennen veraendert werden:
   - titleFilters: Eine Auflistung von replace-Strings: Diese Strings werden aus dem Titel (und damit spaeter dem Dateinamen) entfernt.
   - titlePrependItemDate: Nimmt das Datum der Folge und platziert es vor dem Titel im Dateinamen. Aus "Tatort xy.mp4" wird dann "2016-01-13 - Tatort xy.mp4"
   - downloadedFeedItemsDatabase: Dateiname fuer die Ablage der schon runter geladenen Folgen. In dieser Datei werden die Mediathek documentIds gespeichert, die erfolgreich runter geladen wurden.
-- version: Gibt die Schemaversion der Config-Datei an
+- version: Gibt die Schemaversion der Config-Datei an. Beim Start Wird ueberprueft, ob das Script zur verwendeten Config-Datei passt. Wenn nicht, muessen die Aenderungen aus der config.json.sample uebernommen werden und die Versionsnummer erhoeht werden.
 
 Abhaengigkeiten
 ===============
