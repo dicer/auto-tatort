@@ -32,6 +32,7 @@ Die Konfiguration findet in der Datei config.json statt. Ein Beispiel findet sic
 Folgende Optionen koennen veraendert werden:
 
 - debug: Sollen debug Informationen ausgegeben werden? Kann auf 1 gesetzt werden, allerdings bekommt man dann natuerlich jeden Tag eine Mail, sofern das Script via cron eingebunden ist
+- debugFile: Sofern debug=1 und hier eine Datei angegeben wird, werden alle Debug-Infos in diese Datei gelogged (und nicht auf stdout). Stdout bekommt immer noch alle anderen Statusinformationen und Fehler (so wie ohne debug)
 - feeds: Hier koennen mehrere RSS-Feeds aus der Mediathek abgefragt werden. Per Default ist der Tatortfeed voreingestellt. Fuer andere Feeds gibt es ausdruecklich keinen Support ;) Pull-Requests werden aber gerne angesehen.
   - enabled: Hier koennen einzelne Feeds deaktiviert werden, ohne sie aus der Config entfernen zu muessen
   - id: Eindeutige Id fuer den Feed. Wird aktuell nur zur besseren Wiedererkennung verwendet.

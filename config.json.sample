@@ -1,5 +1,6 @@
 {
     "debug": 0,
+    "debugFile": "/data/tatort/debug.log",
     "feeds": [
         {
             "enabled": 1,

@@ -19,9 +19,13 @@ DB_VERSION_REQUIRED = 5
 
 
 def debug(text):
-  if myConfig["debug"] == 1:
+  if myConfig["debug"] != 1:
+    return
+  if "debugFile" in myConfig and len(myConfig["debugFile"]) > 0:
+    if not isinstance(text, basestring): text = str(text)
+    codecs.open(myConfig["debugFile"], mode="a", encoding="utf-8").write(str(datetime.datetime.today()) + " -- " + text + "\n")
+  else:
     print text
-
 
 def excludeFeedBasedOnTitle(feedConfig, title):
   if "exclude" not in feedConfig or len(feedConfig["exclude"])==0:
