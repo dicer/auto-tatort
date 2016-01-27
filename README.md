@@ -13,9 +13,11 @@ Die Vergabe des Dateinames erfolgt automatisch und basiert auf dem Titel des RSS
 
 Dann Script via cron automatisiert ausfuehren lassen:
 
-30 * * * * python ~/bin/auto-tatort/autoTatort.py
+30 0-23/2 * * * python ~/bin/auto-tatort/autoTatort.py
 
-Das Script laed alle Folgen, die es bisher noch nicht runtergeladen hat (siehe Config: downloadedFeedItemsDatabase) und fuer die es keine exclude-Filter gibt (siehe Config: exclude). Es kann daher beliebig haeufig ausgefuehrt werden, jedoch sollte es nicht haeufiger als alle 30 Minuten gestartet werden um nicht unnoetig Last auf der Mediathek zu erzeugen.
+Das Script laed alle Folgen, die es bisher noch nicht runtergeladen hat (siehe Config: downloadedFeedItemsDatabase) und fuer die es keine exclude-Filter gibt (siehe Config: exclude). Es kann daher beliebig haeufig ausgefuehrt werden, jedoch sollte es nicht haeufiger als alle 30 Minuten gestartet werden um nicht unnoetig Last auf der Mediathek zu erzeugen. Desweiteren ist darauf zu achten, dass das Script nicht mehrmals gleichzeitig laeuft! Dabei auch bedenken, dass der Download immer eine Weile dauert.
+
+Wenn der Rechner cron-Ausgaben via Email weiterleitet, bekommt man so mitgeteilt, wenn eine neue Folge erfolgreich runtergeladen wurde (oder es zu Fehlern kam). Wurde keine neue Folge gefunden, gibt das Script nichts zurueck und keine Email wird versendet.
 
 Untertitel
 ==========
