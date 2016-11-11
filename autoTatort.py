@@ -217,6 +217,7 @@ for feed in myConfig["feeds"]:
         fullFileName = targetDir + fileName + ".mp4"
         if (os.path.isfile(fullFileName)) == True:
           print u"Skipping file '" + fullFileName + "' cause it already exists"
+          markDocIdDownloaded(feedId, docId)
           continue
         urlretrieve(mediaURL, fullFileName)
       except IOError as e:
