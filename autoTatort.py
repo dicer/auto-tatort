@@ -139,10 +139,7 @@ for feed in myConfig["feeds"]:
     if feedId in myDownloadedFeedItemsDatabase and docId in myDownloadedFeedItemsDatabase[feedId]:
       continue
 
-    year = item["date_parsed"][0];
-    month = item["date_parsed"][1];
-    day = item["date_parsed"][2];
-    itemDate = datetime.date(item["date_parsed"][0], item["date_parsed"][1], item["date_parsed"][2])
+    itemDate = datetime.date(item["published_parsed"][0], item["published_parsed"][1], item["published_parsed"][2])
 
     title = item["title"]
 
