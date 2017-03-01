@@ -22,8 +22,14 @@ Wenn der Rechner cron-Ausgaben via Email weiterleitet, bekommt man so mitgeteilt
 Untertitel
 ==========
 
-Die meisten oder alle Tatortfolgen scheinen auch Untertitel zu enthalten. Diese werden automatisch mit runter geladen und im gleichen Verzeichnis abgelegt. Bisher sind das rohe XML Dateien, mit denen man noch nicht viel anfangen kann. Es wird spaeter mal einen Konverter geben, der diese in gebraeuchliche Formate umwandeln kann.
+Die meisten oder alle Tatortfolgen scheinen auch Untertitel zu enthalten. Diese werden automatisch mit runter geladen und im gleichen Verzeichnis abgelegt. Das sind rohe XML Dateien, mit denen man noch nicht viel anfangen kann. Es gibt aber einen Konverter: https://github.com/haraldF/ttaf2srt
+Wird dieser im PATH gefunden, wird das XML automatisch ins SRT-Format umgewandelt und mit dem gleichen Filenamen wie das mp4 und Endung ".srt" abgelegt. Dabei ist zu beachten, dass die Untertitel im UTF8 Format abgelegt werden. Manche Player erkennen das nicht automatisch und brauchen extra Optionen. Zb bei mplayer: "-subcp utf8"
+Das originale XML-File wird danach nicht geloescht, damit man bei Fehlern im Konverter spaeter noch eine Chance hat ein korrektes SRT-File zu generieren.
 Wenn keine Untertitel gewuenscht sind, kann man das entsprechend in der Config anpassen.
+  
+Wenn man Cron benutzt, sollte man darauf achten, dass der Pfad auch das ttaf2srt Script beinhaltet. Cron setzt diesen anders als bei einem Shell-Login des Users zu dem die crontab gehoert! Eine Moeglichkeit das zu beeinflussen: https://stackoverflow.com/questions/10129381/crontab-path-and-user  
+Bei Ablage des Konverters in /home/autotatort/bin also zb: PATH=/home/autotatort/bin:/usr/local/bin:/usr/bin:/bin
+
 
 Config
 ======
@@ -61,6 +67,8 @@ from urllib import urlopen, urlretrieve
 import json  
 import os.path  
 import re  
+import distutils.spawn  
+import subprocess  
 
 Wurde nicht mit Python3 getestet, sollte aber vorher mit dem 2to3 Tool konvertiert werden!
 
