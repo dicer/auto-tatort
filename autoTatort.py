@@ -160,7 +160,7 @@ for feed in myConfig["feeds"]:
 
     if 'http://www.ardmediathek.de/-/stoerung' == response.geturl() or response.getcode() >= 400:
       print docUrl
-      print "Could not get item with title '" + title + "'. Got redirected to '" + response.geturl() + "'. Status code is " + response.getcode() + ". This is probably because the item is still in the RSS feed, but not available anymore."
+      print "Could not get item with title '" + title + "'. Got redirected to '" + response.geturl() + "'. Status code is " + str(response.getcode()) + ". This is probably because the item is still in the RSS feed, but not available anymore."
       continue
 
     html = response.read()
