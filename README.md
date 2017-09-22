@@ -56,6 +56,15 @@ Folgende Optionen koennen veraendert werden:
   - downloadedFeedItemsDatabase: Dateiname fuer die Ablage der schon runter geladenen Folgen. In dieser Datei werden die Mediathek documentIds gespeichert, die erfolgreich runter geladen wurden.
 - version: Gibt die Schemaversion der Config-Datei an. Beim Start Wird ueberprueft, ob das Script zur verwendeten Config-Datei passt. Wenn nicht, muessen die Aenderungen aus der config.json.sample uebernommen werden und die Versionsnummer erhoeht werden.
 
+Bekannte Probleme
+===============
+**UnicodeEncodeError: 'ascii' codec can't encode character**   
+Hier stimmt unter Umstaenden die Locale nicht. Siehe https://github.com/dicer/auto-tatort/issues/12. Am besten das Script testweise so starten:
+```
+LC_ALL=en_US.UTF-8 /bin/python autoTatort.py
+
+```
+
 Abhaengigkeiten
 ===============
 
