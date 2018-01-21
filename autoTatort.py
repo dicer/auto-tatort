@@ -183,7 +183,7 @@ for feed in myConfig["feeds"]:
     if downloadQuality == -1:
       downloadQuality = 0
       for mediaLink in mediaLinks:
-        if mediaLink["_quality"] > downloadQuality and '_stream' in mediaLink:
+        if mediaLink["_quality"] != "auto" and mediaLink["_quality"] > downloadQuality and '_stream' in mediaLink:
           downloadQuality = mediaLink["_quality"]
     debug("Downloading quality " + str(downloadQuality))
 
@@ -218,6 +218,7 @@ for feed in myConfig["feeds"]:
           print u"Skipping file '" + fullFileName + "' cause it already exists"
           markDocIdDownloaded(feedId, docId)
           continue
+        debug("Downloading " + mediaURL)
         urlretrieve(mediaURL, fullFileName)
       except IOError as e:
         print "Could not connect to link '" + mediaURL + "'"
