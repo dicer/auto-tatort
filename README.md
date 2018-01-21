@@ -43,7 +43,7 @@ Folgende Optionen koennen veraendert werden:
   - enabled: Hier koennen einzelne Feeds deaktiviert werden, ohne sie aus der Config entfernen zu muessen
   - id: Eindeutige Id fuer den Feed. Wird aktuell nur zur besseren Wiedererkennung verwendet.
   - quality:
-    - -1 = Automatisch die hoechste Qualitaet laden (Default)
+    - -1 = Automatisch die hoechste Qualitaet laden. Hierbei wird auch versucht die HD-Version in 1280x720 zu laden. (Default)
     -  0 = 320x180 (53k audio, 12.5fps)
     -  1 = 480x270 (61k audio, 25fps) (es gibt auch noch 1.0 = 512x288 (93k audio, 25fps), aber das wird im Moment nicht unterstuetzt)
     -  2 = 960x540 (189k audio, 25fps) (es gibt auch noch 2.0 = 640x360 (189k audio, 25fps), aber das wird im Moment nicht unterstuetzt)
@@ -65,6 +65,9 @@ LC_ALL=en_US.UTF-8 /bin/python autoTatort.py
 
 ```
 
+**Version 2.1.00 laed nicht das Video, sondern kleines m3u8 File (wenige kb gross)
+Hier gab es Mitte Dezember eine Änderung in der Mediathek. Daher wurde bei aktivierter Auto-Qualität leider nicht die höchste Qualität selektiert, sondern eine m3u8-Datei runter geladen. In issue #16 ist eine Lösung dokumentiert.
+
 Abhaengigkeiten
 ===============
 
@@ -78,6 +81,7 @@ import os.path
 import re  
 import distutils.spawn  
 import subprocess  
+import requests  
 
 Wurde nicht mit Python3 getestet, sollte aber vorher mit dem 2to3 Tool konvertiert werden!
 

@@ -9,6 +9,7 @@ import os.path
 import re
 import distutils.spawn
 import subprocess
+import requests
 
 #Wrap sysout so we don't run into problems when printing unicode characters to the console.
 #This would otherwise be a problem when we are invoked on Debian using cron: 
@@ -68,6 +69,28 @@ def markDocIdDownloaded(feedId, docId):
     debug("Adding docId '" + docId + "' to seen-db")
     myDownloadedFeedItemsDatabase[feedId].append(docId)
     saveDownloadedFeedsDB()
+
+
+def checkForHDFile(url):
+  path = url.rsplit("/",1)[0]
+  fileName = url.rsplit("/",1)[1]
+
+  #guess filename like https://github.com/mediathekview/MServer/blob/master/src/main/java/mServer/crawler/sender/MediathekArd.java
+  hdUrl = path + "/" + fileName.replace("960", "1280")
+  if requests.head(hdUrl).status_code == 200:
+    debug("Found HD file!")
+    return hdUrl
+
+  if fileName.endswith("_1.mp4"):
+    hdUrl = path + "/" + fileName.replace("_1", "")
+  else:
+    hdUrl = path + "/" + fileName.replace(".mp4", "_1.mp4")
+
+  if requests.head(hdUrl).status_code == 200:
+    debug("Found HD file!")
+    return hdUrl
+  else:
+    return url
 
 
 
@@ -185,7 +208,7 @@ for feed in myConfig["feeds"]:
       for mediaLink in mediaLinks:
         if mediaLink["_quality"] != "auto" and mediaLink["_quality"] > downloadQuality and '_stream' in mediaLink:
           downloadQuality = mediaLink["_quality"]
-    debug("Downloading quality " + str(downloadQuality))
+    debug("Selected quality " + str(downloadQuality))
 
     downloadedSomething = 0
 
@@ -206,6 +229,10 @@ for feed in myConfig["feeds"]:
       else:
         mediaURL = stream
         debug("We have only one stream. Will download it")
+
+      #if autoquality is selected, we check if we can find an HD streams
+      if quality == -1 and "960" in mediaURL:
+        mediaURL = checkForHDFile(mediaURL);
 
       fileName = "".join([x if x.isalnum() or x in "- " else "" for x in title])
 
