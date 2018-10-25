@@ -1,3 +1,23 @@
+2.3.0
+=====
+Unterstuetzung der neuen JSON Struktur. Die alte scheint noch direkt nach Ausstrahlung zu funktionieren, aber wenn man ein paar Tage später versucht die Sendung runter zu laden, kam es zu Fehlern.
+
+2.2.0
+=====
+- Workaround fuer kaputte Download aus 2.1.00 in README verlinkt
+- Unterstuetzung von HD files, sofern diese gefunden werden koennen. Das Feature wurde aus Mediathekview adaptiert: https://github.com/mediathekview/MServer/blob/master/src/main/java/mServer/crawler/sender/MediathekArd.java#L151
+
+2.1.01
+======
+Issue #16 behoben: Download laed nun wieder mp4s anstatt wenige Kilobyte grosse Version
+
+2.1.00
+======
+Support um xml Untertitel nach srt zu konvertieren
+
+2.0.01
+======
+Anpassung an neues Datumsformat im RSS feed
 
 2.0.00
 ======

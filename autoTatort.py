@@ -159,6 +159,7 @@ for feed in myConfig["feeds"]:
     parsed = urlparse.urlparse(link)
     docId = urlparse.parse_qs(parsed.query)['documentId'][0]
     docUrl = 'http://www.ardmediathek.de/play/media/' + docId + '?devicetype=pc&features=flash'
+    debug(docUrl)
 
     #already downloaded?
     if feedId in myDownloadedFeedItemsDatabase and docId in myDownloadedFeedItemsDatabase[feedId]:
@@ -195,10 +196,14 @@ for feed in myConfig["feeds"]:
       print "Could not get item with title '" + title + "'. Original item link is '" + link + "' and parsed docId[0] is '" + docId[0] + "', but html response from '" + docUrl + "' was '" + html + "'"
       continue
 
-    if '_mediaArray' not in media or len(media["_mediaArray"]) < 2:
+    if '_mediaArray' not in media or len(media["_mediaArray"]) < 1 :
+      debug(html)
       print "Skipping " + title + " because it seems it does not have any mediafiles or none that we support"
       continue
-    mediaLinks = media["_mediaArray"][1]["_mediaStreamArray"]
+    if len(media["_mediaArray"]) == 2 and '_mediaStreamArray' in media["_mediaArray"][1]:
+      mediaLinks = media["_mediaArray"][1]["_mediaStreamArray"]
+    elif '_mediaStreamArray' in media["_mediaArray"][0]:
+      mediaLinks = media["_mediaArray"][0]["_mediaStreamArray"]
 
     downloadQuality = quality
 
