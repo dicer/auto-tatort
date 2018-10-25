@@ -13,7 +13,7 @@ Die Vergabe des Dateinames erfolgt automatisch und basiert auf dem Titel des RSS
 
 Dann Script via cron automatisiert ausfuehren lassen:
 
-30 0-23/2 * * * python ~/bin/auto-tatort/autoTatort.py
+30 0-23/2 * * * python3 ~/bin/auto-tatort/autoTatort.py
 
 Das Script laed alle Folgen, die es bisher noch nicht runtergeladen hat (siehe Config: downloadedFeedItemsDatabase) und fuer die es keine exclude-Filter gibt (siehe Config: exclude). Es kann daher beliebig haeufig ausgefuehrt werden, jedoch sollte es nicht haeufiger als alle 30 Minuten gestartet werden um nicht unnoetig Last auf der Mediathek zu erzeugen. Desweiteren ist darauf zu achten, dass das Script nicht mehrmals gleichzeitig laeuft! Dabei auch bedenken, dass der Download immer eine Weile dauert.
 
@@ -61,7 +61,7 @@ Bekannte Probleme
 **UnicodeEncodeError: 'ascii' codec can't encode character**   
 Hier stimmt unter Umstaenden die Locale nicht. Siehe https://github.com/dicer/auto-tatort/issues/12. Am besten das Script testweise so starten:
 ```
-LC_ALL=en_US.UTF-8 /bin/python autoTatort.py
+LC_ALL=en_US.UTF-8 /usr/bin/python3 autoTatort.py
 
 ```
 
@@ -71,19 +71,20 @@ Hier gab es Mitte Dezember eine Änderung in der Mediathek. Daher wurde bei akti
 Abhaengigkeiten
 ===============
 
-import sys, codecs, locale  
-import feedparser (apt-get install python-feedparser)  
-import datetime  
-import urlparse  
-from urllib import urlopen, urlretrieve  
-import json  
-import os.path  
-import re  
-import distutils.spawn  
-import subprocess  
-import requests  
+Setzt python3 voraus und die feedparser Bibliothek (apt-get install python3-feedparser)
 
-Wurde nicht mit Python3 getestet, sollte aber vorher mit dem 2to3 Tool konvertiert werden!
+import codecs
+import datetime
+import distutils.spawn
+import json
+import os.path
+import re
+import subprocess
+import sys
+from urllib.request import urlopen, urlretrieve
+import urllib.parse
+import feedparser
+import requests
 
 Credits
 =======
