@@ -62,29 +62,28 @@ Bekannte Probleme
 Hier stimmt unter Umstaenden die Locale nicht. Siehe https://github.com/dicer/auto-tatort/issues/12. Am besten das Script testweise so starten:
 ```
 LC_ALL=en_US.UTF-8 /usr/bin/python3 autoTatort.py
-
 ```
 
-**Version 2.1.00 laed nicht das Video, sondern kleines m3u8 File (wenige kb gross)
+**Version 2.1.00 laed nicht das Video, sondern kleines m3u8 File (wenige kb gross)**
 Hier gab es Mitte Dezember eine Änderung in der Mediathek. Daher wurde bei aktivierter Auto-Qualität leider nicht die höchste Qualität selektiert, sondern eine m3u8-Datei runter geladen. In issue #16 ist eine Lösung dokumentiert.
 
 Abhaengigkeiten
 ===============
 
-Setzt python3 voraus und die feedparser Bibliothek (apt-get install python3-feedparser)
+Setzt python3 voraus, sowie die feedparser & requests Bibliotheken (apt-get install python3-feedparser python3-requests)
 
-import codecs
-import datetime
-import distutils.spawn
-import json
-import os.path
-import re
-import subprocess
-import sys
-from urllib.request import urlopen, urlretrieve
-import urllib.parse
-import feedparser
-import requests
+import codecs  
+import datetime  
+import distutils.spawn  
+import json  
+import os.path  
+import re  
+import subprocess  
+import sys  
+from urllib.request import urlopen, urlretrieve  
+import urllib.parse  
+import feedparser  
+import requests  
 
 Credits
 =======
