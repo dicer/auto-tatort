@@ -3,24 +3,15 @@ import codecs
 import datetime
 import distutils.spawn
 import json
-import locale
 import os.path
 import re
 import subprocess
 import sys
-from urllib import urlopen, urlretrieve
-import urlparse
+from urllib.request import urlopen, urlretrieve
+import urllib.parse
 
 import feedparser
 import requests
-
-
-# Wrap sysout so we don't run into problems when printing unicode characters to the console.
-# This would otherwise be a problem when we are invoked on Debian using cron: 
-# Console will have encoding NONE and fail to print some titles with umlauts etc
-# might also fix printing on Windows consoles
-# see https://wiki.python.org/moin/PrintFails
-sys.stdout = codecs.getwriter(locale.getpreferredencoding())(sys.stdout)
 
 DB_VERSION_REQUIRED = 5
 
@@ -29,10 +20,10 @@ def debug(text):
 	if myConfig["debug"] != 1:
 		return
 	if "debugFile" in myConfig and len(myConfig["debugFile"]) > 0:
-		if not isinstance(text, basestring): text = str(text)
+		if not isinstance(text, str): text = str(text)
 		codecs.open(myConfig["debugFile"], mode="a", encoding="utf-8").write(str(datetime.datetime.today()) + " -- " + text + "\n")
 	else:
-		print text
+		print(text)
 
 
 def excludeFeedBasedOnTitle(feedConfig, title):
@@ -100,14 +91,14 @@ def checkForHDFile(url):
 
 configFile = os.path.dirname(os.path.realpath(__file__)) + os.sep + "config.json"
 if (os.path.isfile(configFile)) != True:
-	print "Could not find the config file 'config.json' at " + configFile
+	print("Could not find the config file 'config.json' at " + configFile)
 	sys.exit(1)
 
 myConfig = json.loads(open(configFile).read())
 
 myConfigVersion = myConfig["version"]
 if myConfigVersion != DB_VERSION_REQUIRED:
-	print "Your config.json version is not up to date. JSON: " + str(myConfigVersion) + "; Required: " + str(DB_VERSION_REQUIRED) + ". Please compare to config.json.sample, update your configuration and increase the version number in it"
+	print("Your config.json version is not up to date. JSON: " + str(myConfigVersion) + "; Required: " + str(DB_VERSION_REQUIRED) + ". Please compare to config.json.sample, update your configuration and increase the version number in it")
 	sys.exit(1)
 
 downloadedFeedItemsDatabaseFile = os.path.dirname(os.path.realpath(__file__)) + os.sep + myConfig["downloadedFeedItemsDatabase"]
@@ -146,12 +137,12 @@ for feed in myConfig["feeds"]:
 	feedItemList = feedparser.parse(rssUrl)
 
 	if feedItemList.bozo == 1:
-		print "Could not connect to link '" + rssUrl + "'."
-		print feedItemList.bozo_exception
+		print("Could not connect to link '" + rssUrl + "'.")
+		print(feedItemList.bozo_exception)
 		continue
 
 	if feedItemList.status >= 400:
-		print "Could not connect to link '" + rssUrl + "'. Status code returned: " + feedItemList.status
+		print("Could not connect to link '" + rssUrl + "'. Status code returned: " + feedItemList.status)
 		continue
 
 	items = feedItemList.entries
@@ -159,8 +150,8 @@ for feed in myConfig["feeds"]:
 	for item in items:
 
 		link = item["link"]
-		parsed = urlparse.urlparse(link)
-		docId = urlparse.parse_qs(parsed.query)['documentId'][0]
+		parsed = urllib.parse.urlparse(link)
+		docId = urllib.parse.parse_qs(parsed.query)['documentId'][0]
 		docUrl = 'http://www.ardmediathek.de/play/media/' + docId + '?devicetype=pc&features=flash'
 
 		# already downloaded?
@@ -175,18 +166,18 @@ for feed in myConfig["feeds"]:
 			continue
 
 		title = filterTitle(feed, title)
-		debug(u"Filtered title to '" + title + "'")
+		debug("Filtered title to '" + title + "'")
 
 		try:
 			response = urlopen(docUrl)
 		except IOError as e:
-			print "Could not connect to link '" + docUrl + "'"
-			print e
+			print("Could not connect to link '" + docUrl + "'")
+			print(e)
 			continue
 
 		if 'http://www.ardmediathek.de/-/stoerung' == response.geturl() or response.getcode() >= 400:
-			print docUrl
-			print "Could not get item with title '" + title + "'. Got redirected to '" + response.geturl() + "'. Status code is " + str(response.getcode()) + ". This is probably because the item is still in the RSS feed, but not available anymore."
+			print(docUrl)
+			print("Could not get item with title '" + title + "'. Got redirected to '" + response.geturl() + "'. Status code is " + str(response.getcode()) + ". This is probably because the item is still in the RSS feed, but not available anymore.")
 			continue
 
 		html = response.read()
@@ -194,12 +185,12 @@ for feed in myConfig["feeds"]:
 		try:
 			media = json.loads(html)
 		except ValueError as e:
-			print e
-			print "Could not get item with title '" + title + "'. Original item link is '" + link + "' and parsed docId[0] is '" + docId[0] + "', but html response from '" + docUrl + "' was '" + html + "'"
+			print(e)
+			print("Could not get item with title '" + title + "'. Original item link is '" + link + "' and parsed docId[0] is '" + docId[0] + "', but html response from '" + docUrl + "' was '" + html + "'")
 			continue
 
 		if '_mediaArray' not in media or len(media["_mediaArray"]) < 2:
-			print "Skipping " + title + " because it seems it does not have any mediafiles or none that we support"
+			print("Skipping " + title + " because it seems it does not have any mediafiles or none that we support")
 			continue
 		mediaLinks = media["_mediaArray"][1]["_mediaStreamArray"]
 
@@ -245,25 +236,25 @@ for feed in myConfig["feeds"]:
 			try:
 				fullFileName = targetDir + fileName + ".mp4"
 				if (os.path.isfile(fullFileName)) == True:
-					print u"Skipping file '" + fullFileName + "' cause it already exists"
+					print("Skipping file '" + fullFileName + "' cause it already exists")
 					markDocIdDownloaded(feedId, docId)
 					continue
 				debug("Downloading " + mediaURL)
 				urlretrieve(mediaURL, fullFileName)
 			except IOError as e:
-				print "Could not connect to link '" + mediaURL + "'"
-				print e
+				print("Could not connect to link '" + mediaURL + "'")
+				print(e)
 				continue
 			if response.getcode() >= 400:
-				print mediaURL
-				print "Could not get item with title '" + title + "'. Status code is " + response.getcode()
+				print(mediaURL)
+				print("Could not get item with title '" + title + "'. Status code is " + response.getcode())
 				continue
 
 			downloadedSomething = 1
 
 			markDocIdDownloaded(feedId, docId)
 
-			print "Downloaded '" + title + "'"
+			print("Downloaded '" + title + "'")
 
 			# download subtitles
 			try:
@@ -276,8 +267,8 @@ for feed in myConfig["feeds"]:
 					subtitleFileName = targetDir + fileName + "_subtitleOffset_" + str(offset) + ".xml"
 					urlretrieve(subtitleURL, subtitleFileName)
 					if response.getcode() >= 400:
-						print subtitleURL
-						print "Could not get the subtitles for item with title '" + title + "'. Status code is " + response.getcode()
+						print(subtitleURL)
+						print("Could not get the subtitles for item with title '" + title + "'. Status code is " + response.getcode())
 						continue
 					else:
 						# check if subtitle converter is present
@@ -293,9 +284,9 @@ for feed in myConfig["feeds"]:
 							debug("ttaf2srt.py not found in the path")
 			except Exception as e:
 				# print and resume with download
-				print e
-				print subtitleURL
+				print(e)
+				print(subtitleURL)
 
 		# check whether we download something
 		if downloadedSomething == 0:
-			print "Could not download '" + title + "' because of an error or nothing matching your quality selection"
+			print("Could not download '" + title + "' because of an error or nothing matching your quality selection")
