@@ -37,6 +37,9 @@
             ],
             "titleFilters": [
                 {
+                    "replace": ","
+                },
+                {
                     "replace": " (Video tgl. ab 22 Uhr)"
                 },
                 {

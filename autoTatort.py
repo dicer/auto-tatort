@@ -234,7 +234,7 @@ for feed in myConfig["feeds"]:
 			if quality == -1 and "960" in mediaURL:
 				mediaURL = checkForHDFile(mediaURL)
 
-			fileName = "".join([x if x.isalnum() or x in "- " else "" for x in title])
+			fileName = "".join([x if x.isalnum() or x in ",- " else "" for x in title])
 
 			if titlePrependItemDate == 1:
 				fileName = str(itemDate) + " - " + fileName
