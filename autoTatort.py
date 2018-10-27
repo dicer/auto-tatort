@@ -180,11 +180,10 @@ for feed in myConfig["feeds"]:
 			print("Could not get item with title '" + title + "'. Got redirected to '" + response.geturl() + "'. Status code is " + str(response.getcode()) + ". This is probably because the item is still in the RSS feed, but not available anymore.")
 			continue
 
-		html = response.read()
-
 		try:
+			html = response.read().decode('utf8')
 			media = json.loads(html)
-		except ValueError as e:
+		except (TypeError, ValueError) as e:
 			print(e)
 			print("Could not get item with title '" + title + "'. Original item link is '" + link + "' and parsed docId[0] is '" + docId[0] + "', but html response from '" + docUrl + "' was '" + html + "'")
 			continue
