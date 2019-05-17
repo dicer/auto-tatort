@@ -19,6 +19,8 @@ Das Script laed alle Folgen, die es bisher noch nicht runtergeladen hat (siehe C
 
 Wenn der Rechner cron-Ausgaben via Email weiterleitet, bekommt man so mitgeteilt, wenn eine neue Folge erfolgreich runtergeladen wurde (oder es zu Fehlern kam). Wurde keine neue Folge gefunden, gibt das Script nichts zurueck und keine Email wird versendet.
 
+Es empfiehlt sich auch diesem Repository auf Github zu folgen, um wichtige Fehlerbereinigungen zeitnah mit zu bekommen.
+
 Untertitel
 ==========
 
@@ -83,9 +85,10 @@ import sys
 from urllib.request import urlopen, urlretrieve  
 import urllib.parse  
 import feedparser  
-import requests  
+import requests (apt-get install python-requests)  
 
 Credits
 =======
 Author: Felix Knecht  
 Die Idee hierzu ist aus den Scripten von Robin Gareus entstanden: http://www.rg42.org/wiki/tatort-dl
+Die Logik HD-Versionen zu finden ist aus Mediathekview übernommen: https://github.com/mediathekview/
