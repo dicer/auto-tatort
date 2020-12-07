@@ -8,7 +8,7 @@
             "quality": -1,
             "subtitles": 1,
             "targetFolder": "/data/tatort/",
-            "url": "http://www.ardmediathek.de/tv/Tatort/Sendung?documentId=602916&bcastId=602916&rss=true",
+            "url": "https://classic.ardmediathek.de/tv/Tatort/Sendung?documentId=602916&bcastId=602916&rss=true",
             "exclude": [
                 {
                     "regexp": ".*H.rfassung.*"
