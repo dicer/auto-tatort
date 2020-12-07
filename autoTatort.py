@@ -230,6 +230,10 @@ for feed in myConfig["feeds"]:
 				mediaURL = stream
 				debug("We have only one stream. Will download it")
 
+			# ensure we always have a valid protocol
+			if not mediaURL.startswith("http"):
+				mediaURL = "https:" + mediaURL
+
 			# if autoquality is selected, we check if we can find an HD streams
 			if quality == -1 and "960" in mediaURL:
 				mediaURL = checkForHDFile(mediaURL)
